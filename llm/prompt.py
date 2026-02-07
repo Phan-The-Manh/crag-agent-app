@@ -12,30 +12,29 @@ grade_prompt = ChatPromptTemplate.from_messages(
 )
 
 llm_prompt = ChatPromptTemplate.from_template(
-"""
-You are a smart and helpful assistant designed to answer user questions.
+"""You are a helpful RAG assistant. Answer the user's question using the provided context.
 
-Instructions:
-1. Use the Conversation History ONLY to understand references, follow-up questions, or what the user is referring to.
-2. If Context is not None, in mandatory, use the Context as the source of truth for factual or technical answers.
-3. If the user asks a general or social question (e.g., greetings, small talk, simple facts), you may answer naturally without using the Context.
-4. If the question is factual or complex:
-   - Answer using ONLY the Context.
-   - If the answer is NOT present in the Context, say:
-     "I do not know based on the provided context."
-5. Do NOT introduce facts that are not supported by the Context.
-6. Be concise and factual.
+## Context (use this as your primary source)
 
-Conversation History (for reference only):
-{history}
-
-Context (authoritative information):
 {context}
 
-Question:
+## Conversation history (for follow-ups and references)
+
+{history}
+
+## User question
+
 {question}
 
-Answer:
+## Instructions
+
+- Base your answer on the context above. Quote or paraphrase from it when possible.
+- If the context clearly contains the answer, give a direct, concise response.
+- If the context is related but does not contain the answer, say: "The context doesn't contain enough information to answer that."
+- Do not invent facts or add information not in the context.
+
+## Answer
+
 """)
 
 rewrite_system = """You a question re-writer that converts an input question to a better version that is optimized \n 

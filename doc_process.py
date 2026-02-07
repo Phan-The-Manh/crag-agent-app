@@ -68,10 +68,17 @@ def store_pdf_to_faiss(
     # 3️⃣ Embeddings
     embeddings = OpenAIEmbeddings(model=embedding_model)
 
-    # 4️⃣ FAISS
-    db = FAISS.from_documents(chunks, embeddings)
-    db.save_local(vector_store_path)
+    # 4️⃣ FAISS: delete old index, create new one from current PDF only
+    vector_store_dir = Path(vector_store_path).resolve()
+    for f in ("index.faiss", "index.pkl"):
+        old_file = vector_store_dir / f
+        if old_file.exists():
+            old_file.unlink()
+            print(f"🗑️ Removed old {f}")
 
-    print(f"✅ Stored FAISS index at '{vector_store_path}'")
+    db = FAISS.from_documents(chunks, embeddings)
+    db.save_local(str(vector_store_dir))
+
+    print(f"✅ Stored new FAISS index at '{vector_store_path}'")
     return db
 

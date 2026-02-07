@@ -1,5 +1,16 @@
-from langchain_core.messages import AIMessage
+from langchain_core.messages import AIMessage, HumanMessage
 from agent_app.llm.models import rag_chain, general_chain
+
+
+def _format_history(messages):
+    """Convert message list to readable string for the prompt."""
+    lines = []
+    for m in messages:
+        role = "Human" if isinstance(m, HumanMessage) else "Assistant"
+        lines.append(f"{role}: {m.content}")
+    return "\n".join(lines) if lines else "None"
+
+
 def generate(state):
     """
     Generate answer based on whether context documents are available.
@@ -18,18 +29,19 @@ def generate(state):
     # Only use list of docs for RAG; check_retrieve stores decision string
     documents = raw_docs if isinstance(raw_docs, list) and raw_docs else None
 
-    # history excludes the latest human question
-    history = messages[:-1]
+    # Format history and context as readable strings for the LLM
+    history_str = _format_history(messages[:-1])
 
     if documents:
+        context_str = "\n\n---\n\n".join(documents)
         generation = rag_chain.invoke({
-            "history": history,
-            "context": documents,
+            "history": history_str,
+            "context": context_str,
             "question": question
         })
     else:
         generation = general_chain.invoke({
-            "history": history,
+            "history": history_str,
             "question": question
         })
 
