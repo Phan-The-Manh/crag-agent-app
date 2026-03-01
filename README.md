@@ -6,6 +6,33 @@ The system ingests PDFs into a **FAISS vector store**, retrieves relevant chunks
 
 ---
 
+# CRAG Architecture
+
+## Mermaid
+```mermaid
+graph LR
+    %% Node Definitions
+    I([<b>Input</b>])
+    R{<b>Retrieve ?</b>}
+    RET[[<b>Retriever</b>]]
+    G1[[<b>Grader</b>]]
+    S{<b>Sufficient</b>}
+    WS[[<b>Web search</b>]]
+    G2[[<b>Grader</b>]]
+    A([<b>Answer</b>])
+
+    %% Flow
+    I --> R
+    R -- Yes --> RET
+    RET --> G1
+    G1 --> S
+    S -- Yes --> A
+    S -- No --> WS
+    WS --> G2
+    G2 --> A
+    R -- No --> A
+```
+
 ## Features
 
 - **FastAPI HTTP API** with Swagger docs (`/docs`)
