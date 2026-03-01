@@ -6,7 +6,7 @@ The system ingests PDFs into a **FAISS vector store**, retrieves relevant chunks
 
 ---
 
-# CRAG Architecture
+## CRAG Architecture
 
 ## Mermaid
 ```mermaid
@@ -41,5 +41,11 @@ graph LR
 - **CORS enabled** for frontend use
 
 ---
+
+## Limitations
+
+- **Simple architecture** (baseline cRAG; limited advanced routing/verification)
+- **Single document** focus (best for **simple queries** grounded in one uploaded PDF)
+- **Not optimized** for **multi-document** reasoning, **complex/multi-hop** questions, or heavy **production-scale** workloads
 
 
