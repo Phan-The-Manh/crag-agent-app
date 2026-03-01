@@ -18,7 +18,6 @@ graph LR
     G1[[<b>Grader</b>]]
     S{<b>Sufficient</b>}
     WS[[<b>Web search</b>]]
-    G2[[<b>Grader</b>]]
     A([<b>Answer</b>])
 
     %% Flow
@@ -28,8 +27,7 @@ graph LR
     G1 --> S
     S -- Yes --> A
     S -- No --> WS
-    WS --> G2
-    G2 --> A
+    WS --> A
     R -- No --> A
 ```
 
