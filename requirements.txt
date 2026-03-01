@@ -3,6 +3,7 @@ langchain_community
 langchain_core
 langchain_openai
 pydantic
+pydantic-settings
 langgraph
 pypdf
 faiss-cpu
