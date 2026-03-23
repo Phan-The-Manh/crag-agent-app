@@ -8,7 +8,6 @@ The system ingests PDFs into a **FAISS vector store**, retrieves relevant chunks
 
 ## CRAG Architecture
 
-## Mermaid
 ```mermaid
 graph LR
     %% Node Definitions
